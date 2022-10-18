@@ -6,13 +6,13 @@ class HandDetector():
     def __init__(self, static_image_mode=False,
                max_num_hands=2,
                model_complexity=1,
-               min_detection_confidence=0.5,
+               min_detection_confidence=0.6,
                min_tracking_confidence=0.5):
 
         # formality
         self.mpHands = mp.solutions.hands
         # creating hand object
-        self.hands = self.mpHands.Hands()
+        self.hands = self.mpHands.Hands(static_image_mode, max_num_hands, model_complexity, min_detection_confidence, min_tracking_confidence)
         # for drawing
         self.mpDraw = mp.solutions.drawing_utils
 
@@ -43,8 +43,8 @@ class HandDetector():
                 cx, cy = int(lm.x * w), int(lm.y * h)
                 lmList.append([id, cx, cy])
                 # grabbing thumb tip
-                # if (id == 4):
-                cv2.circle(img, (cx, cy), 5, (255, 255, 0), cv2.FILLED)
+                if draw:
+                    cv2.circle(img, (cx, cy), 5, (255, 255, 0), cv2.FILLED)
         return lmList
 
 def main():
