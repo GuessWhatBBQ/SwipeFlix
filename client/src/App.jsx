@@ -1,34 +1,45 @@
-import React, { useEffect, useRef } from "react";
-import "./App.css";
-import { Player, Video, DefaultUi, usePlayerContext } from "@vime/react";
+import "./app.scss";
+import Home from "./pages/home/Home";
+import Register from "./pages/register/Register";
+import Watch from "./pages/watch/Watch";
+import Login from "./pages/login/Login";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./authContext/AuthContext";
 
-import "@vime/core/themes/default.css";
-
-function App() {
-  /** @type {React.MutableRefObject<HTMLVmPlayerElement>} */
-  const player = useRef(null);
-
-  const [currentTime] = usePlayerContext(player, "currentTime", 0);
-
-  useEffect(() => {
-    console.log(currentTime);
-    console.log(player.current);
-  }, [currentTime]);
-
+const App = () => {
+  const { user } = useContext(AuthContext);
   return (
-    <Player controls ref={player}>
-      <Video crossOrigin="" poster="https://media.vimejs.com/poster.png">
-        <source data-src="/video" type="video/mp4" />
-        <track
-          default
-          kind="subtitles"
-          src="https://media.vimejs.com/subs/english.vtt"
-          srcLang="en"
-          label="English"
-        />
-      </Video>
-    </Player>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          {user ? <Home /> : <Redirect to="/register" />}
+        </Route>
+        <Route path="/register">
+          {!user ? <Register /> : <Redirect to="/" />}
+        </Route>
+        <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
+        {user && (
+          <>
+            <Route path="/movies">
+              <Home type="movie" />
+            </Route>
+            <Route path="/series">
+              <Home type="series" />
+            </Route>
+            <Route path="/watch">
+              <Watch />
+            </Route>
+          </>
+        )}
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
