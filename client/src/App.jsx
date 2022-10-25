@@ -7,6 +7,8 @@ import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 
 import "@vime/core/themes/default.css";
 
+var fist = false;
+
 function App() {
   // /** @type {React.MutableRefObject<HTMLVmPlayerElement>} */
   // const player = useRef(null);
@@ -14,8 +16,6 @@ function App() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const canvasContextRef = useRef(null);
-
-  var fist = false;
 
   useEffect(() => {
     canvasContextRef.current = canvasRef.current.getContext("2d");
@@ -84,6 +84,8 @@ function App() {
       }
       if (fist) {
         console.log("Fist");
+      } else {
+        console.log("Not Fist");
       }
     }
     canvasContextRef.current.restore();
