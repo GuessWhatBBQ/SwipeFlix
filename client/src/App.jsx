@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
+import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
+import { HAND_CONNECTIONS } from "@mediapipe/hands";
+
 import "./App.css";
 
-import { Hands, HAND_CONNECTIONS } from "@mediapipe/hands";
-import { Camera } from "@mediapipe/camera_utils";
-import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
+import {
+  startCapture,
+  resultProcessor,
+  landmarkProcessor,
+  handState,
+} from "./MediaPipeController";
 
 import "@vime/core/themes/default.css";
-
-var fist = false;
 
 function App() {
   // /** @type {React.MutableRefObject<HTMLVmPlayerElement>} */
@@ -16,80 +20,62 @@ function App() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const canvasContextRef = useRef(null);
+  const updateFist = useRef(null);
 
-  useEffect(() => {
-    canvasContextRef.current = canvasRef.current.getContext("2d");
+  var [fist, setFist] = useState(false);
 
-    const hands = new Hands({
-      locateFile: (file) => {
-        return `/@mediapipe/hands/${file}`;
-      },
-    });
-    hands.setOptions({
-      maxNumHands: 2,
-      modelComplexity: 1,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-    });
-    hands.onResults(onResults);
-    const camera = new Camera(videoRef.current, {
-      onFrame: async () => {
-        await hands.send({ image: videoRef.current });
-      },
-      width: 1280,
-      height: 720,
-    });
-    camera.start();
-  }, []);
+  const fistProcessor = () => {
+    var timerRunning = false;
+    var timeoutID;
+    return (state) => {
+      if (timerRunning) {
+        if (state === false) {
+          clearTimeout(timeoutID);
+          timerRunning = false;
+        }
+      } else if (state === true) {
+        timerRunning = true;
+        timeoutID = setTimeout(() => {
+          console.log(`FIST-${timeoutID}`);
+          timerRunning = false;
+        }, 1000);
+      }
+    };
+  };
 
-  const onResults = (results) => {
-    canvasContextRef.current.save();
-    canvasContextRef.current.clearRect(
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    );
-    canvasContextRef.current.drawImage(
-      results.image,
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    );
+  const resultProcessor = (canvas, canvasContext) => (results) => {
+    canvasContext.save();
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    canvasContext.drawImage(results.image, 0, 0, canvas.width, canvas.height);
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
-        drawConnectors(canvasContextRef.current, landmarks, HAND_CONNECTIONS, {
+        drawConnectors(canvasContext, landmarks, HAND_CONNECTIONS, {
           color: "#00FF00",
           lineWidth: 5,
         });
-        drawLandmarks(canvasContextRef.current, landmarks, {
+        drawLandmarks(canvasContext, landmarks, {
           color: "#FF0000",
           lineWidth: 2,
         });
-        if (
-          landmarks[8].y > landmarks[6].y &&
-          landmarks[12].y > landmarks[10].y &&
-          landmarks[16].y > landmarks[14].y &&
-          landmarks[20].y > landmarks[18].y
-        ) {
-          setTimeout(() => {
-            if (!fist) {
-              fist = true;
-            }
-          }, 1000);
+        if (landmarkProcessor(landmarks) === handState.FIST) {
+          updateFist.current(true);
         } else {
-          fist = false;
+          updateFist.current(false);
         }
       }
-      if (fist) {
-        console.log("Fist");
-      } else {
-        console.log("Not Fist");
-      }
     }
-    canvasContextRef.current.restore();
+    canvasContext.restore();
   };
+
+  useEffect(() => {
+    canvasContextRef.current = canvasRef.current.getContext("2d");
+    startCapture(
+      videoRef.current,
+      resultProcessor(canvasRef.current, canvasContextRef.current)
+    )();
+    var global_landmarks = [];
+    updateFist.current = fistProcessor();
+  }, []);
 
   return (
     <div className="App">

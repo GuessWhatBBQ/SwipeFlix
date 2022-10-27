@@ -22,6 +22,7 @@
     "@vime/core": "^5.3.3",
     "@vime/react": "^5.3.3",
     "react": "^18.2.0",
+    "react-countdown-circle-timer": "^3.0.9",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
