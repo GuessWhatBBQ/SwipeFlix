@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { HAND_CONNECTIONS } from "@mediapipe/hands";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 import "./App.css";
 
 import {
   startCapture,
-  resultProcessor,
   landmarkProcessor,
   handState,
 } from "./MediaPipeController";
@@ -21,50 +21,56 @@ function App() {
   const canvasRef = useRef(null);
   const canvasContextRef = useRef(null);
   const updateFist = useRef(null);
+  const [timerRunning, setTimerRunning] = useState(false);
 
   var [fist, setFist] = useState(false);
 
   const fistProcessor = () => {
-    var timerRunning = false;
     var timeoutID;
+    var timer;
     return (state) => {
-      if (timerRunning) {
+      if (timer) {
         if (state === false) {
           clearTimeout(timeoutID);
-          timerRunning = false;
+          timer = false;
+          setTimerRunning(false);
         }
       } else if (state === true) {
-        timerRunning = true;
+        setTimerRunning(true);
+        timer = true;
         timeoutID = setTimeout(() => {
           console.log(`FIST-${timeoutID}`);
-          timerRunning = false;
-        }, 1000);
+          timer = false;
+          setTimerRunning(false);
+        }, 2000);
       }
     };
   };
 
   const resultProcessor = (canvas, canvasContext) => (results) => {
-    canvasContext.save();
-    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-    canvasContext.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+    // canvasContext.save();
+    // canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    // canvasContext.drawImage(results.image, 0, 0, canvas.width, canvas.height);
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
-        drawConnectors(canvasContext, landmarks, HAND_CONNECTIONS, {
-          color: "#00FF00",
-          lineWidth: 5,
-        });
-        drawLandmarks(canvasContext, landmarks, {
-          color: "#FF0000",
-          lineWidth: 2,
-        });
+        // drawConnectors(canvasContext, landmarks, HAND_CONNECTIONS, {
+        //   color: "#00FF00",
+        //   lineWidth: 5,
+        // });
+        // drawLandmarks(canvasContext, landmarks, {
+        //   color: "#FF0000",
+        //   lineWidth: 2,
+        // });
         if (landmarkProcessor(landmarks) === handState.FIST) {
           updateFist.current(true);
         } else {
           updateFist.current(false);
         }
       }
+    } else {
+      updateFist.current(false);
     }
-    canvasContext.restore();
+    // canvasContext.restore();
   };
 
   useEffect(() => {
@@ -73,12 +79,21 @@ function App() {
       videoRef.current,
       resultProcessor(canvasRef.current, canvasContextRef.current)
     )();
-    var global_landmarks = [];
     updateFist.current = fistProcessor();
   }, []);
 
   return (
     <div className="App">
+      {timerRunning ? (
+        <CountdownCircleTimer
+          isPlaying
+          duration={2}
+          colors={["#004777", "#F7B801", "#A30000"]}
+          colorsTime={[2, 1, 0]}
+        >
+          {({ remainingTime }) => remainingTime}
+        </CountdownCircleTimer>
+      ) : null}
       <video autoPlay ref={videoRef} />
       <canvas ref={canvasRef} width={1280} height={720} />
     </div>
