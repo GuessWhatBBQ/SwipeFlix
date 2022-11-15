@@ -76,7 +76,7 @@ export const userData = [
     },
     {
       id: 2,
-      username: "Jon Snow",
+      username: "Jon Doe",
       avatar:
         "https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
       email: "jon@gmail.com",

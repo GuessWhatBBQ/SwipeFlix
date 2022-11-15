@@ -4,7 +4,6 @@ import {
   Timeline,
   TrendingUp,
   PermIdentity,
-  Storefront,
   AttachMoney,
   BarChart,
   MailOutline,
@@ -12,6 +11,7 @@ import {
   ChatBubbleOutline,
   WorkOutline,
   Report,
+  PlayCircleFilledOutlined,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -47,10 +47,10 @@ export default function Sidebar() {
                 Users
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/movies" className="link">
               <li className="sidebarListItem">
-                <Storefront className="sidebarIcon" />
-                Products
+                <PlayCircleFilledOutlined className="sidebarIcon" />
+                Movies
               </li>
             </Link>
             <li className="sidebarListItem">
@@ -63,7 +63,7 @@ export default function Sidebar() {
             </li>
           </ul>
         </div>
-        <div className="sidebarMenu">
+        {/* <div className="sidebarMenu">
           <h3 className="sidebarTitle">Notifications</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem">
@@ -96,7 +96,7 @@ export default function Sidebar() {
               Reports
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

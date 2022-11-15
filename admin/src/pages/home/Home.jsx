@@ -1,8 +1,8 @@
 import Chart from "../../components/chart/Chart";
 import "./home.css";
-// import { userData } from "../../dummyData";
+import { userData } from "../../dummyData";
 // import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
-// import WidgetSm from "../../components/widgetSm/WidgetSm";
+import WidgetSm from "../../components/widgetSm/WidgetSm";
 // import WidgetLg from "../../components/widgetLg/WidgetLg";
 import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
@@ -19,7 +19,7 @@ export default function Home() {
 				"May",
 				"Jun",
 				"Jul",
-				"Agu",
+				"Aug",
 				"Sep",
 				"Oct",
 				"Nov",
@@ -59,16 +59,11 @@ export default function Home() {
   return (
 		<div className="home">
 			{/* <FeaturedInfo /> */}
-			<Chart
-				data={userStats}
-				title="User Analytics"
-				grid
-				dataKey="New User"
-			/>
-			{/* <div className="homeWidgets">
+			<Chart data={userData} title="User Analytics" grid dataKey="New User" />
+			<div className="homeWidgets">
 				<WidgetSm />
-				<WidgetLg />
-			</div> */}
+				{/* <WidgetLg /> */}
+			</div>
 		</div>
 	);
 }
