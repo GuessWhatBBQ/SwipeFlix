@@ -1,7 +1,10 @@
-import {
-  ArrowBackIosOutlined,
-  ArrowForwardIosOutlined,
-} from "@material-ui/icons";
+// import {
+//   ArrowBackIosOutlined,
+//   ArrowForwardIosOutlined,
+// } from "@material-ui/icons";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 import { useRef, useState } from "react";
 import ListItem from "../listItem/ListItem";
 import "./list.scss";
@@ -28,7 +31,7 @@ export default function List() {
     <div className="list">
       <span className="listTitle">Continue to watch</span>
       <div className="wrapper">
-        <ArrowBackIosOutlined
+        <ArrowBackIcon
           className="sliderArrow left"
           onClick={() => handleClick("left")}
           style={{ display: !isMoved && "none" }}
@@ -45,7 +48,7 @@ export default function List() {
           <ListItem index={8} />
           <ListItem index={9} />
         </div>
-        <ArrowForwardIosOutlined
+        <ArrowForwardIcon
           className="sliderArrow right"
           onClick={() => handleClick("right")}
         />

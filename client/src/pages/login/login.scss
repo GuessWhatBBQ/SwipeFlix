@@ -6,7 +6,7 @@
       rgba(0, 0, 0, 0) 0%,
       rgba(0, 0, 0, 1) 100%
     ),
-    url("http://mppmduse2pmpovwapp.azurewebsites.net/wp-content/uploads/2019/09/netflix-background-9.jpg");
+    url("../../background.jpg");
   background-size: cover;
   position: relative;
 
@@ -18,7 +18,8 @@
       justify-content: space-between;
 
       .logo {
-        height: 40px;
+        height: 50px;
+        width: 150px;
       }
     }
   }

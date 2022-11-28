@@ -7,17 +7,30 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link,
+  Navigate
 } from "react-router-dom";
 
 const App = () => {
+  const user = true;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route exact path="/" element={user? <Home />:  <Navigate to="/register"/>} />
+
+        <Route exact path="/register" element={!user?<Register />:<Navigate to ="/"/>} />
+
+        <Route exact path="/login" element={!user?<Login />:<Navigate to="/"/>} />
+        {
+          user &&(
+            <>
+
+            <Route path="/movies" element={<Home type="movies"/>} />
+        <Route path="/series" element={<Home type="series"/>} />
+
         <Route path="/watch" element={<Watch/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
+            </>
+          )}
+       
 
       </Routes>
     </BrowserRouter>

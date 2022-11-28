@@ -1,4 +1,6 @@
-import { InfoOutlined, PlayArrow } from "@material-ui/icons";
+// import { InfoOutlined, PlayArrow } from "@material-ui/icons";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import InfoIcon from '@mui/icons-material/Info';
 import "./featured.scss";
 
 export default function Featured({ type }) {
@@ -6,7 +8,7 @@ export default function Featured({ type }) {
     <div className="featured">
       {type && (
         <div className="category">
-          <span>{type === "movie" ? "Movies" : "Series"}</span>
+          <span>{type === "movies" ? "Movies" : "Series"}</span>
           <select name="genre" id="genre">
             <option>Genre</option>
             <option value="adventure">Adventure</option>
@@ -42,11 +44,11 @@ export default function Featured({ type }) {
         </span>
         <div className="buttons">
           <button className="play">
-            <PlayArrow />
+            <PlayArrowIcon />
             <span>Play</span>
           </button>
           <button className="more">
-            <InfoOutlined />
+            <InfoIcon />
             <span>Info</span>
           </button>
         </div>
