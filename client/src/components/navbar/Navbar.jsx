@@ -1,4 +1,3 @@
-// import { ArrowDropDown, Notifications, Search } from "@material-ui/icons";
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SearchIcon from '@mui/icons-material/Search';
