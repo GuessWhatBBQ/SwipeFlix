@@ -3,6 +3,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import {Link} from 'react-router-dom';
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -30,16 +31,17 @@ export default function ListItem({ index,item }) {
   },[item])
   
   return (
+    <Link to ="/watch" state={{movie:movie}}>
     <div
       className="listItem"
       style={{ left: isHovered && index * 225 - 50 + index * 2.5 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-    >
+      >
       <img
         src={movie.img}
         alt=""
-      />
+        />
       {isHovered && (
         <>
           <video src={movie.trailer} autoPlay={true} loop />
@@ -63,5 +65,6 @@ export default function ListItem({ index,item }) {
         </>
       )}
     </div>
+      </Link>
   );
 }
