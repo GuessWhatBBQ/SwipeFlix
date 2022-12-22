@@ -11,6 +11,7 @@ import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import ReportIcon from '@mui/icons-material/Report';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -45,10 +46,10 @@ export default function Sidebar() {
                 Users
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/movies" className="link">
               <li className="sidebarListItem">
-                <StorefrontIcon className="sidebarIcon" />
-                Products
+                <PlayCircleIcon className="sidebarIcon" />
+                Movies
               </li>
             </Link>
             <li className="sidebarListItem">
