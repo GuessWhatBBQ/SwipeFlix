@@ -14,7 +14,7 @@ export default function WidgetSm() {
         const res = await axios.get("/api/users?new=true",{
           headers: {
               token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODM3MDVlMzU0YmRjNzMzYjQxZmEyNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3MTU1MjM0NiwiZXhwIjoxNjcxOTg0MzQ2fQ.hX4OSy4jwTRNp3vq4eQe3MRc5LLawuuRBl19BnNPBnk",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODM3MDVlMzU0YmRjNzMzYjQxZmEyNSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3MjIwNjczMiwiZXhwIjoxNjcyNjM4NzMyfQ.QAqniTlBobOyylJPcspG6Bcz-knJ-EdeUUsHU1E2PcY",
             },
         })
         setNewUsers(res.data)
@@ -31,7 +31,7 @@ export default function WidgetSm() {
       <ul className="widgetSmList">
         {newUsers.map((user)=>(
 
-          <li className="widgetSmListItem">
+          <li className="widgetSmListItem" key={user._id}>
           <img
             src={user.profilePic || "https://ural-region.net/upload/711fae05789795e0cc2204cf4d914acf.jpg"}
             alt=""
