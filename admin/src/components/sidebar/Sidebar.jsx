@@ -3,7 +3,8 @@ import LineStyleIcon from '@mui/icons-material/LineStyle';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import StorefrontIcon from '@mui/icons-material/Storefront';
+import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
+
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -52,10 +53,12 @@ export default function Sidebar() {
                 Movies
               </li>
             </Link>
+            <Link to="/lists" className="link">
             <li className="sidebarListItem">
-              <AttachMoneyIcon className="sidebarIcon" />
-              Transactions
+              <PlaylistPlayIcon className="sidebarIcon" />
+              Lists
             </li>
+            </Link>
             <li className="sidebarListItem">
               <BarChartIcon className="sidebarIcon" />
               ReportIcons
