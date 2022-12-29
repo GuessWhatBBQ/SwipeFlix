@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route
           path="/login"
-          element={user ? <Login /> : <Navigate replace to={"/"} />}
+          element={!user ? <Login /> : <Navigate replace to={"/"} />}
         />
       </Routes>
       {user && (
