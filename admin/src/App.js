@@ -36,7 +36,7 @@ function App() {
               <Route path="/newUser" element={<NewUser />} />
               <Route path="/movies" element={<ProductList />} />
               <Route path="/product/:productId" element={<Product />} />
-              <Route path="/newproduct" elemetn={<NewProduct />} />
+              <Route path="/newproduct" element={<NewProduct />} />
             </Routes>
           </div>
         </>
