@@ -1,6 +1,8 @@
 .watch {
   width: 100vw;
   height: 100vh;
+  background-color: black;
+  padding-left: 7vw;
 
   .back {
     display: flex;
@@ -14,8 +16,14 @@
   }
 
   .video {
-    width: 100%;
-    height: 100%;
+    width: 85vw;
+    height: 10vh;
     object-fit: cover;
   }
+}
+
+.count {
+  position: absolute;
+  right: 0%;
+  z-index: 2147483647;
 }

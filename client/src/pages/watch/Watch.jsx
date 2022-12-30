@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { HAND_CONNECTIONS } from "@mediapipe/hands";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { Player, Video, DefaultUi, usePlayerContext } from "@vime/react";
 
 import {
   startCapture,
@@ -18,6 +19,9 @@ export default function Watch() {
   const location = useLocation();
   console.log(location);
   const movie = location.state.movie;
+
+  /** @type {React.MutableRefObject<HTMLVmPlayerElement>} */
+  const player = useRef(null);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -44,25 +48,28 @@ export default function Watch() {
           console.log(`FIST-${timeoutID}`);
           timer = false;
           setTimerRunning(false);
+          player.current.playing
+            ? player.current.pause()
+            : player.current.play();
         }, 2000);
       }
     };
   };
 
   const resultProcessor = (canvas, canvasContext) => (results) => {
-    // canvasContext.save();
-    // canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-    // canvasContext.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+    canvasContext.save();
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    canvasContext.drawImage(results.image, 0, 0, canvas.width, canvas.height);
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
-        // drawConnectors(canvasContext, landmarks, HAND_CONNECTIONS, {
-        //   color: "#00FF00",
-        //   lineWidth: 5,
-        // });
-        // drawLandmarks(canvasContext, landmarks, {
-        //   color: "#FF0000",
-        //   lineWidth: 2,
-        // });
+        drawConnectors(canvasContext, landmarks, HAND_CONNECTIONS, {
+          color: "#00FF00",
+          lineWidth: 5,
+        });
+        drawLandmarks(canvasContext, landmarks, {
+          color: "#FF0000",
+          lineWidth: 2,
+        });
         if (landmarkProcessor(landmarks) === handState.FIST) {
           updateFist.current(true);
         } else {
@@ -72,7 +79,7 @@ export default function Watch() {
     } else {
       updateFist.current(false);
     }
-    // canvasContext.restore();
+    canvasContext.restore();
   };
 
   useEffect(() => {
@@ -92,25 +99,30 @@ export default function Watch() {
           Home
         </div>
       </Link>
-      {timerRunning ? (
-        <CountdownCircleTimer
-          isPlaying
-          duration={2}
-          colors={["#004777", "#F7B801", "#A30000"]}
-          colorsTime={[2, 1, 0]}
-        >
-          {({ remainingTime }) => remainingTime}
-        </CountdownCircleTimer>
-      ) : null}
       <video hidden autoPlay ref={videoRef} />
-      <video
-        className="video"
-        autoPlay
-        progress="true"
-        controls
-        src={movie.video}
-      />
-      <canvas ref={canvasRef} width={1280} height={720} />
+      <div className="video">
+        <Player controls ref={player}>
+          <Video poster="https://media.vimejs.com/poster.png">
+            <source data-src="http://localhost:5001/video" type="video/mp4" />
+          </Video>
+
+          <div className="count">
+            {timerRunning ? (
+              <CountdownCircleTimer
+                isPlaying
+                duration={2}
+                colors={["#111111", "#333333", "#555555"]}
+                colorsTime={[2, 1, 0]}
+                size={30}
+                strokeWidth={3}
+              >
+                {({ remainingTime }) => remainingTime}
+              </CountdownCircleTimer>
+            ) : null}
+          </div>
+        </Player>
+      </div>
+      <canvas hidden ref={canvasRef} width={1280} height={720} />
     </div>
   );
 }
