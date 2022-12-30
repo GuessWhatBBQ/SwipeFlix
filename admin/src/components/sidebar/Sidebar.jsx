@@ -28,14 +28,14 @@ export default function Sidebar() {
               Home
             </li>
             </Link>
-            <li className="sidebarListItem">
+            {/* <li className="sidebarListItem">
               <TimelineIcon className="sidebarIcon" />
               Analytics
-            </li>
-            <li className="sidebarListItem">
+            </li> */}
+            {/* <li className="sidebarListItem">
               <TrendingUpIcon className="sidebarIcon" />
               Sales
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="sidebarMenu">

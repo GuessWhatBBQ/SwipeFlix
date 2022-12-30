@@ -102,8 +102,8 @@ export default function Watch() {
       <video hidden autoPlay ref={videoRef} />
       <div className="video">
         <Player controls ref={player}>
-          <Video poster="https://media.vimejs.com/poster.png">
-            <source data-src="http://localhost:5001/video" type="video/mp4" />
+          <Video poster={movie.img}>
+            <source data-src={movie.video} type="video/mp4" />
           </Video>
 
           <div className="count">
